@@ -1,14 +1,13 @@
 const readline = require('readline');
 
 const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+  input: process.stdin,
+  output: process.stdout,
 });
 
 let min = 1;
 let max = 100;
 
-let currentGuess;
 
 console.log(`
 Hey buddy,
@@ -23,38 +22,36 @@ And if i found the right one press "="
 
 `);
 
-guessNumber();
+function getRandomInt() {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
 function guessNumber(guess, answer) {
-    if (guess !== undefined) {
-        switch (answer) {
-            case '-':
-                max = guess - 1;
-                break;
-            case '+':
-                min = guess + 1;
-                break;
-            case '=':
-                console.log('I am so good!');
-                rl.close();
-                break;
-            default:
-        }
+  if (guess !== undefined) {
+    switch (answer) {
+      case '-':
+        max = guess - 1;
+        break;
+      case '+':
+        min = guess + 1;
+        break;
+      case '=':
+        console.log('I am so good!');
+        rl.close();
+        break;
+      default:
     }
-    if (guess === undefined || answer === '-' || answer === '+') {
-        let number = getRandomInt();
-        rl.question(`My guess is ${number}, is it right?\n`, (answer) => {
-            guessNumber(number, answer);
-        });
-    }
-    else if (answer !== '=') {
-        rl.question('What ?\n', (answer) => {
-            guessNumber(guess, answer);
-        });
-    }
+  }
+  if (guess === undefined || answer === '-' || answer === '+') {
+    const number = getRandomInt();
+    rl.question(`My guess is ${number}, is it right?\n`, a => {
+      guessNumber(number, a);
+    });
+  } else if (answer !== '=') {
+    rl.question('What ?\n', a => {
+      guessNumber(guess, a);
+    });
+  }
 }
 
-
-function getRandomInt() {
-    return Math.floor(Math.random() * (max - min)) + min;
-}
+guessNumber();
